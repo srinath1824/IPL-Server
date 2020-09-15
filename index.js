@@ -24,7 +24,7 @@ app.use(function (req, res, next) {
 });
 
 mongoose
-  .connect(url, {
+  .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
