@@ -479,6 +479,10 @@ app.post("/api/userData", (req, res) => {
   });
 });
 
+app.get("/test", (req,res) => {
+	res.send("Server is Wok=rking!!")
+})
+
 app.listen(5000, () => {
   console.log("SERVER is listining to 5000");
 });
