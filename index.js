@@ -23,6 +23,8 @@ app.use(function (req, res, next) {
   next();
 });
 
+const PORT = process.env.PORT || 3000;
+
 mongoose
   .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
@@ -479,10 +481,10 @@ app.post("/api/userData", (req, res) => {
   });
 });
 
-app.get("/test", (req,res) => {
-	res.send("Server is Wok=rking!!")
-})
+app.get("/test", (req, res) => {
+  res.send("Server is Wok=rking!!");
+});
 
-app.listen(5000, () => {
-  console.log("SERVER is listining to 5000");
+app.listen(PORT, () => {
+  console.log(`App is running on port ${PORT}`);
 });

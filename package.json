@@ -7,6 +7,9 @@
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "engines": {
+    "node": "12.18.3"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/srinath1824/IPL-Server.git"
