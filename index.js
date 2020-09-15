@@ -238,7 +238,7 @@ function importPointsTableData2MongoDB(filePath, fileName) {
       console.log("ERROR", data);
       throw err;
     } else {
-      console.log("Number of documents inserted: ", data);
+      console.log("Points table documents inserted");
     }
   });
 }
