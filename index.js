@@ -7,6 +7,7 @@ const _ = require("lodash");
 const excelToJson = require("convert-excel-to-json");
 const fs = require("fs");
 require("dotenv").config();
+const path = require("path");
 mongoose.pluralize(null);
 
 let url = process.env.MONGODB_URI;
@@ -58,7 +59,7 @@ global.__basedir = __dirname;
 // -> Multer Upload Storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, __basedir + "/uploads/");
+    cb(null, path.resolve(__basedir + "/uploads/"));
   },
   filename: (req, file, cb) => {
     cb(null, file.fieldname + "-" + Date.now() + "-" + file.originalname);
@@ -200,7 +201,7 @@ function importExcelData2MongoDB(filePath, fileName) {
           console.log("ERROR", data);
           throw err;
         }
-        console.log("Number of documents inserted: ", data, res.length);
+        console.log("Points table documents inserted");
         /**
               Number of documents inserted: 5
           */
