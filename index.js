@@ -8,7 +8,7 @@ const excelToJson = require("convert-excel-to-json");
 const fs = require("fs");
 require("dotenv").config();
 const path = require("path");
-const cors = require('cors')
+const cors = require("cors");
 mongoose.pluralize(null);
 
 let url = process.env.MONGODB_URI;
@@ -16,8 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 require("./prod")(app);
-app.use(cors({origin: true}));
-
+app.use(cors({ origin: true }));
 
 const PORT = process.env.PORT || 5000;
 
@@ -246,16 +245,16 @@ function importTeamData2MongoDB(filePath, fileName, team1, team2) {
         name: team1,
         columnToKey: {
           A: "PlayerName",
-          B: "Score",
-          C: "Wicket",
+          B: "Wicket",
+          C: "Score",
           D: "Balls",
-          E: "SR",
-          F: "4s",
-          G: "6s",
+          E: "4s",
+          F: "6s",
+          G: "SR",
           H: "Overs",
-          I: "Runs",
-          J: "Wickets",
-          K: "Maiden",
+          I: "Maiden",
+          J: "Runs",
+          K: "Wickets",
           L: "Eco",
           M: "Catches",
           N: "Stumps",
@@ -269,16 +268,16 @@ function importTeamData2MongoDB(filePath, fileName, team1, team2) {
         name: team2,
         columnToKey: {
           A: "PlayerName",
-          B: "Score",
-          C: "Wicket",
+          B: "Wicket",
+          C: "Score",
           D: "Balls",
-          E: "SR",
-          F: "4s",
-          G: "6s",
+          E: "4s",
+          F: "6s",
+          G: "SR",
           H: "Overs",
-          I: "Runs",
-          J: "Wickets",
-          K: "Maiden",
+          I: "Maiden",
+          J: "Runs",
+          K: "Wickets",
           L: "Eco",
           M: "Catches",
           N: "Stumps",
@@ -316,16 +315,16 @@ function importTeamData2MongoDB(filePath, fileName, team1, team2) {
             {
               team: team,
               PlayerName: a.PlayerName,
-              Score: a.Score,
               Wicket: a.Wicket,
+              Score: a.Score,
               Balls: a.Balls,
-              SR: a.SR,
               "4s": a["4s"],
               "6s": a["6s"],
+              SR: a.SR,
               Overs: a.Overs,
+              Maiden: a.Maiden,
               Runs: a.Runs,
               Wickets: a.Wickets,
-              Maiden: a.Maiden,
               Eco: a.Eco,
               Catches: a.Catches,
               Stumps: a.Stumps,
