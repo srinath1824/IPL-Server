@@ -47,6 +47,10 @@ const pointsSchema = new mongoose.Schema({
   "Points Table": [Object],
 });
 
+const scheduleSchema = new mongoose.Schema({
+  "Schedule Table": [Object],
+});
+
 global.__basedir = __dirname;
 
 // -> Multer Upload Storage
@@ -203,6 +207,39 @@ function importExcelData2MongoDB(filePath, fileName) {
     }
     fs.unlinkSync(filePath);
   }
+}
+
+function importScheduleTableData2MongoDB(filePath, fileName) {
+  const excelData = excelToJson({
+    sourceFile: filePath,
+    sheets: [
+      {
+        name: "Schedule",
+        columnToKey: {
+          A: "Date",
+          B: "Time",
+          C: "Day",
+          D: "Team1",
+          E: "Team2",
+          F: "Venue",
+          G: "Result",
+        },
+      },
+    ],
+  });
+  const Course = mongoose.model("Schedule Table", scheduleSchema);
+  let scheduleTable = {
+    "Schedule Table": excelData["Schedule"].slice(1),
+  };
+  let course = new Course(scheduleTable);
+  course.save(function (err, data) {
+    if (err) {
+      console.log("ERROR", data);
+      throw err;
+    } else {
+      console.log("Schedule table documents inserted");
+    }
+  });
 }
 
 function importPointsTableData2MongoDB(filePath, fileName) {
@@ -424,6 +461,40 @@ app.post(
   }
 );
 
+app.get("/api/getScheduleTable", (req, res) => {
+  const Course = mongoose.model("Schedule Table", scheduleSchema);
+  Course.find({}, function (err, data) {
+    if (err) {
+      res.send("Error uploading data", err);
+    } else {
+      res.send(
+        data && data[0] && data[0]["Schedule Table"]
+          ? data[0]["Schedule Table"]
+          : []
+      );
+    }
+  });
+});
+
+app.post(
+  "/api/scheduleTableData",
+  upload.single("scheduleTableFile"),
+  async (req, res) => {
+    try {
+      await importScheduleTableData2MongoDB(
+        __basedir + "/uploads/" + req.file.filename,
+        req.file.originalname.split(".")[0].replace(/ /g, "").trim(" ")
+      );
+      res.json({
+        msg: "Schedule Table File uploaded/import successfully!",
+        //file: req.file,
+      });
+    } catch {
+      res.status(400).send("Error occured while uploading to MongoDB");
+    }
+  }
+);
+
 // -> Express Upload RestAPIs
 app.post("/api/uploadfile", upload.single("uploadfile"), async (req, res) => {
   try {
@@ -477,7 +548,7 @@ app.post("/api/userData", (req, res) => {
 });
 
 app.get("/test", (req, res) => {
-  res.send("Server is Wok=rking!!");
+  res.send("Server is Wokrking!!");
 });
 
 app.listen(PORT, () => {
